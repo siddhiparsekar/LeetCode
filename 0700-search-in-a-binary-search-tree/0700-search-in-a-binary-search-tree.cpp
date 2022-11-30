@@ -13,18 +13,18 @@ class Solution {
 public:
     TreeNode* searchBST(TreeNode* root, int val) {
 //         ITERATIVE
-//         if(root==NULL || root->val==val)return root;
-//         while(root && root->val!=val){
-//             root=(root->val>val)?root->left:root->right;
-//         }
-//         return root;
+        if(root==NULL || root->val==val)return root;
+        while(root && root->val!=val){
+            root=(root->val>val)?root->left:root->right;
+        }
+        return root;
         
         // RECURSIVE
-        if (root == NULL) return root;
-        if (val < root->val) return searchBST(root->left, val);
-        if (val > root->val) return searchBST(root->right, val);
+//         if (root == NULL) return root;
+//         if (val < root->val) return searchBST(root->left, val);
+//         if (val > root->val) return searchBST(root->right, val);
         
-        return root;
+//         return root;
         
     }
 };
