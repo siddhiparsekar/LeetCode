@@ -1,21 +1,19 @@
 class Solution {
 public:
-    int f(int i,vector<int>& nums,vector<int>&dp){
+    int helper(int idx, vector<int>& nums, vector<int>&dp){
+        if(idx<0)return 0;
+        if(idx == 0)return nums[idx];
         
-        if(i==0)return nums[i];
-        if(i<0) return 0;
-        
-        if(dp[i]!=-1)return dp[i];
-        
-        int pick=nums[i]+f(i-2,nums,dp);
-        int notpick=0+f(i-1,nums,dp);
-        
-        return dp[i]=max(pick,notpick);
+        if(dp[idx] != -1) return dp[idx];
+        int pick = nums[idx] + helper(idx-2, nums, dp);
+        int notpick = 0 + helper(idx-1, nums, dp);
+            
+        return dp[idx] = max(pick, notpick);
     }
     int rob(vector<int>& nums) {
         
-        int n=nums.size();
-        vector<int>dp(n,-1);
-        return f(n-1,nums,dp);
+        int n = nums.size();
+        vector<int>dp(n, -1);
+        return helper(n-1, nums, dp);
     }
 };
