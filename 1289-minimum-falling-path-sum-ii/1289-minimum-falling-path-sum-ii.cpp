@@ -12,18 +12,16 @@ public:
             
             if(k != j)mn = min(mn, matrix[i][j] + helper(i-1, k,matrix, dp));
         }
-        
         return dp[i][j] = mn;
     }
     
     int minFallingPathSum(vector<vector<int>>& matrix) {
-        int n = matrix.size();
-        int m = matrix[0].size();
-        vector<vector<int>>dp(n,vector<int>(m,-1));
+        
+        int n = matrix.size();  //It's a n x n matrix.
+        vector<vector<int>>dp(n,vector<int>(n,-1));
         
         int mini = 1e9;
-        for(int j=0; j<m; j++){
-            
+        for(int j=0; j<n; j++){
             mini = min(mini, helper(n-1, j, matrix, dp));
         }
         return mini;
