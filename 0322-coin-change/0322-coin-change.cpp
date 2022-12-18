@@ -9,7 +9,7 @@ public:
         
         if(dp[idx][amount] != -1) return dp[idx][amount];
         int nottake = 0 + helper(idx-1, coins, amount, dp);
-        int take = INT_MAX;
+        int take = 1e9;
         if(coins[idx] <= amount)
             take = 1 + helper(idx, coins, amount-coins[idx], dp);
             
