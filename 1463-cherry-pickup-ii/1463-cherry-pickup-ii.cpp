@@ -12,7 +12,7 @@ public:
         if(dp[i][j1][j2] != -1) return dp[i][j1][j2];
         
         int maxi = 0;
-        for(int dj1 = -1; dj1<=1; dj1++){
+        for(int dj1 = -1; dj1<=1; dj1++){   //For each dj1 there are 3 dj2 values i.e for each direction of robot1 there are 3 directions of robot2 which are considered!
             for(int dj2 = -1; dj2<=1; dj2++){
                 int value = 0;
                 if(j1 == j2) value = grid[i][j1];
