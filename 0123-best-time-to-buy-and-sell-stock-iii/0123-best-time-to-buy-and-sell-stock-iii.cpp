@@ -126,6 +126,7 @@ public:
 //         return dp[0][0];
 //     }
     
+//     SPACE OPTIMISATION
         int maxProfit(vector<int>& prices){
             int n = prices.size();
             vector<int>prev(5,-1),cur(5,-1);
