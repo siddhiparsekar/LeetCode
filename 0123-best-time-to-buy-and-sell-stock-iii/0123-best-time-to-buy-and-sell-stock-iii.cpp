@@ -1,6 +1,6 @@
 class Solution {
 public:
-    //1] MEMOISATION ->3D DP
+    //1] Approach 1:- MEMOISATION ->3D DP
 //     int helper(int idx, int buy, int cap, vector<int>& prices, vector<vector<vector<int>>>&dp) {
         
 //         if(cap == 0)return 0;
@@ -26,7 +26,7 @@ public:
 
 //     }
     
-    //TABULATION ->3D DP
+    //TABULATION ->3D 
 //     int maxProfit(vector<int>& prices) {
         
 //         int n = prices.size();
@@ -81,27 +81,69 @@ public:
 //             return prev[1][2];
 //     }
     
-    //2] MEMOISATION ->2D DP
-        int helper(int idx, int ts, int n, vector<int>&prices, vector<vector<int>>&dp){
+    //2] Approach 2:- MEMOISATION ->2D DP
+//         int helper(int idx, int ts, int n, vector<int>&prices, vector<vector<int>>&dp){
         
-            //base cases
-            if(idx == n || ts == 4) return 0;
+//             //base cases
+//             if(idx == n || ts == 4) return 0;
             
-            if(dp[idx][ts] != -1) return dp[idx][ts];
-            if(ts%2 == 0){
-                return dp[idx][ts] = max(-prices[idx] + helper(idx+1, ts+1, n, prices, dp),
-                                         0 + helper(idx+1, ts, n, prices, dp));
-            }
-            else{
-                return dp[idx][ts] = max(prices[idx] + helper(idx+1, ts+1, n, prices, dp),
-                                         0 + helper(idx+1, ts, n, prices, dp));
-            }
-        }
+//             if(dp[idx][ts] != -1) return dp[idx][ts];
+//             if(ts%2 == 0){
+//                 return dp[idx][ts] = max(-prices[idx] + helper(idx+1, ts+1, n, prices, dp),
+//                                          0 + helper(idx+1, ts, n, prices, dp));
+//             }
+//             else{
+//                 return dp[idx][ts] = max(prices[idx] + helper(idx+1, ts+1, n, prices, dp),
+//                                          0 + helper(idx+1, ts, n, prices, dp));
+//             }
+//         }
+    
+//         int maxProfit(vector<int>& prices){
+            
+//             int n = prices.size();
+//             vector<vector<int>>dp(n, vector<int>(4, -1));
+//             return helper(0, 0, n, prices, dp);           // in this approach we set buy=0 unlike approach 1, for it to be bought as we check for ts%2==0
+//         }
+    
+    //TABULATION ->2D
+//         int maxProfit(vector<int>& prices){
+//             int n = prices.size();
+//             vector<vector<int>>dp(n+1, vector<int>(5,-0));
+        
+//             //base case skipped siince dp is already declared with 0 value in it, hence starting with next values of idx & ts
+//             for(int ind=n-1; ind>=0; ind--){
+//                 for(int ts=3; ts>=0; ts--){
+//                     if(ts%2 == 0){
+//                         dp[ind][ts] = max(-prices[ind] + dp[ind+1][ts+1],
+//                                           0 + dp[ind+1][ts]);
+//                     }
+//                     else{
+//                         dp[ind][ts] = max(prices[ind] + dp[ind+1][ts+1],
+//                                           0 + dp[ind+1][ts]);
+//                 }
+//             }
+//         }
+//         return dp[0][0];
+//     }
     
         int maxProfit(vector<int>& prices){
-            
             int n = prices.size();
-            vector<vector<int>>dp(n, vector<int>(4, -1));
-            return helper(0, 0, n, prices, dp);
+            vector<int>prev(5,-1),cur(5,-1);
+            for(int i=0;i<=4;i++){
+                prev[i] = 0;
+            }
+            cur[4]=0;
+            for(int ind=n-1;ind>=0;ind--){
+                for(int ts = 3;ts>=0;ts--){
+                    if(ts%2==0){
+                        cur[ts] = max(-prices[ind]+prev[ts+1],prev[ts]);
+                    }
+                    else {
+                        cur[ts] = max(prices[ind]+prev[ts+1],prev[ts]);
+                    }
+                }
+                prev = cur;
+            }
+            return prev[0];
         }
 };
