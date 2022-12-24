@@ -102,23 +102,46 @@ public:
 //         }
     
      //TABULATION ->2D
-        int maxProfit(int k, vector<int>& prices) {
-            int n = prices.size();
-            vector<vector<int>>dp(n+1, vector<int>(2*k+1, 0));
+//         int maxProfit(int k, vector<int>& prices) {
+//             int n = prices.size();
+//             vector<vector<int>>dp(n+1, vector<int>(2*k+1, 0));
         
-            //base case skipped siince dp is already declared with 0 value in it, hence starting with next values of idx & ts
-            for(int ind=n-1; ind>=0; ind--){
-                for(int ts=2*k-1; ts>=0; ts--){
-                    if(ts%2 == 0){
-                        dp[ind][ts] = max(-prices[ind] + dp[ind+1][ts+1],
-                                          0 + dp[ind+1][ts]);
-                    }
-                    else{
-                        dp[ind][ts] = max(prices[ind] + dp[ind+1][ts+1],
-                                          0 + dp[ind+1][ts]);
+//             //base case skipped siince dp is already declared with 0 value in it, hence starting with next values of idx & ts
+//             for(int ind=n-1; ind>=0; ind--){
+//                 for(int ts=2*k-1; ts>=0; ts--){
+//                     if(ts%2 == 0){
+//                         dp[ind][ts] = max(-prices[ind] + dp[ind+1][ts+1],
+//                                           0 + dp[ind+1][ts]);
+//                     }
+//                     else{
+//                         dp[ind][ts] = max(prices[ind] + dp[ind+1][ts+1],
+//                                           0 + dp[ind+1][ts]);
+//                     }
+//                 }
+//             }
+//             return dp[0][0];
+//         }
+    
+    //     SPACE OPTIMISATION
+        int maxProfit(int k, vector<int>& prices){
+            int n = prices.size();
+            vector<int>prev(2*k+1,-1),cur(2*k+1,-1);
+            
+            for(int i=0;i<=2*k;i++){
+                prev[i] = 0;
+            }
+            cur[2*k]=0;
+            for(int ind=n-1;ind>=0;ind--){
+                for(int ts = 2*k-1;ts>=0;ts--){
+                    if(ts%2==0){
+                        cur[ts] = max(-prices[ind] + prev[ts+1], prev[ts]);
+                    } 
+                    else {
+                        cur[ts] = max(prices[ind] + prev[ts+1], prev[ts]);
                     }
                 }
+                prev = cur;
             }
-            return dp[0][0];
+            return prev[0];
         }
 };
