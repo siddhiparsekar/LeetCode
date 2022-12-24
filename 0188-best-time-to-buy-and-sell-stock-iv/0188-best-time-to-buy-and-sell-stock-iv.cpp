@@ -80,27 +80,45 @@ public:
 //         }
     
     //2] Approach 2:- MEMOISATION ->2D DP
-    int helper(int idx, int ts, int n, int k, vector<int>&prices, vector<vector<int>>&dp){
+//     int helper(int idx, int ts, int n, int k, vector<int>&prices, vector<vector<int>>&dp){
         
-            //base cases
-            if(idx == n || ts == 2*k) return 0;
+//             //base cases
+//             if(idx == n || ts == 2*k) return 0;
             
-            if(dp[idx][ts] != -1) return dp[idx][ts];
-            if(ts%2 == 0){
-                return dp[idx][ts] = max(-prices[idx] + helper(idx+1, ts+1, n, k, prices, dp),
-                                         0 + helper(idx+1, ts, n, k, prices, dp));
-            }
-            else{
-                return dp[idx][ts] = max(prices[idx] + helper(idx+1, ts+1, n, k, prices, dp),
-                                         0 + helper(idx+1, ts, n, k, prices, dp));
-            }
-        }
+//             if(dp[idx][ts] != -1) return dp[idx][ts];
+//             if(ts%2 == 0){
+//                 return dp[idx][ts] = max(-prices[idx] + helper(idx+1, ts+1, n, k, prices, dp),
+//                                          0 + helper(idx+1, ts, n, k, prices, dp));
+//             }
+//             else{
+//                 return dp[idx][ts] = max(prices[idx] + helper(idx+1, ts+1, n, k, prices, dp),
+//                                          0 + helper(idx+1, ts, n, k, prices, dp));
+//             }
+//         }
+//         int maxProfit(int k, vector<int>& prices) {
+//             int n = prices.size();
+//             vector<vector<int>>dp(n, vector<int>(2*k, -1));
+//             return helper(0, 0, n, k, prices, dp);           // in this approach we set buy=0 unlike approach 1, for it to be bought as we check for ts%2==0
+//         }
+    
+     //TABULATION ->2D
         int maxProfit(int k, vector<int>& prices) {
             int n = prices.size();
-            vector<vector<int>>dp(n, vector<int>(2*k, -1));
-            return helper(0, 0, n, k, prices, dp);           // in this approach we set buy=0 unlike approach 1, for it to be bought as we check for ts%2==0
+            vector<vector<int>>dp(n+1, vector<int>(2*k+1, 0));
+        
+            //base case skipped siince dp is already declared with 0 value in it, hence starting with next values of idx & ts
+            for(int ind=n-1; ind>=0; ind--){
+                for(int ts=2*k-1; ts>=0; ts--){
+                    if(ts%2 == 0){
+                        dp[ind][ts] = max(-prices[ind] + dp[ind+1][ts+1],
+                                          0 + dp[ind+1][ts]);
+                    }
+                    else{
+                        dp[ind][ts] = max(prices[ind] + dp[ind+1][ts+1],
+                                          0 + dp[ind+1][ts]);
+                    }
+                }
+            }
+            return dp[0][0];
         }
-        // int maxProfit(int k, vector<int>& prices) {
-        //     int n = prices.size();
-        // }
 };
