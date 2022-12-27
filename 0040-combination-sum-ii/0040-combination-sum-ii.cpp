@@ -1,8 +1,8 @@
 class Solution {
-void findcomb(int indx,int target,vector<int>&arr,set<vector<int>> &ans, vector<int>&ds){
+void findcomb(int indx,int target,vector<int>&arr,vector<vector<int>> &ans, vector<int>&ds){
         if(indx==arr.size()){
            if(target==0){
-                ans.insert(ds);
+                ans.push_back(ds);
             } 
             return;
         }
@@ -22,10 +22,9 @@ void findcomb(int indx,int target,vector<int>&arr,set<vector<int>> &ans, vector<
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         sort(candidates.begin(), candidates.end());
-        set<vector<int>> ans;
         vector<int>ds;
+        vector<vector<int>> ans;
         findcomb(0,target,candidates,ans,ds);
-        vector<vector<int>> ans1(ans.begin(), ans.end());
-        return ans1;   
+        return ans;   
     }
 };
