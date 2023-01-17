@@ -5,7 +5,7 @@ public:
         if(col == n){
             return 1;
         }
-        int ans = 0;
+        int count = 0;
         for(int row=0; row<n; row++){
              // checking if there is a queen in the same diagonal, low diagonal and upper diagonal 
             if(leftrow[row] == 0 && lowerDiagonal[row+col] == 0 && upperDiagonal[n-1 + col-row] == 0 ){
@@ -13,7 +13,7 @@ public:
                 leftrow[row] = 1;
                 lowerDiagonal[row+col] = 1;
                 upperDiagonal[n-1 + col-row] = 1;
-                ans += helper(col+1, leftrow, lowerDiagonal, upperDiagonal, board, n);
+                count += helper(col+1, leftrow, lowerDiagonal, upperDiagonal, board, n);
                 //BACKTRACK
                 board[row][col] = '.';
                 leftrow[row] = 0;
@@ -22,7 +22,7 @@ public:
             }
             
         }
-        return ans;
+        return count;
     }
     int totalNQueens(int n) {
         // vector<vector<string>>ans;
